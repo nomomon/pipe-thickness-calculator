@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Solver</title>
+        <link rel="stylesheet" href="styles/style.css">
+    </head>
+    <body>
+        <div class="block pos">
+            <button id="gost_open">Открыть</button>
+            <select id="GOST">
+                <option value='assets/gost/ГОСТ 32388-2013.pdf'>ГОСТ 32388-2013</option>
+                <option value='assets/gost/ГОСТ 32569-2013.pdf'>ГОСТ 32569-2013</option>
+                <option value='assets/gost/ГОСТ 34233,1-2017.pdf'>ГОСТ
+                    34233,1-2017</option>
+                <option value='assets/gost/ГОСТ 34233,12.pdf'>ГОСТ 34233,12</option>
+                <option value='assets/gost/ГОСТ Р 55614, 2013.pdf'>ГОСТ Р 55614,
+                    2013</option>
+                <option value='assets/gost/ГОСТ Р ИСО 16809-2015.pdf'>ГОСТ Р ИСО
+                    16809-2015</option>
+                <option value='assets/gost/приказ 478.pdf'>Приказ 478</option>
+            </select>
+        </div>
+        <main>
+            <div id="input">
+                <h1>Ввод</h1>
+                <button id="clear">Очистить</button>
+                <hr>
+                <h2>Основные данные</h2>
+                <div class="block">
+                    <label>Металл</label>
+                    <select id="metal"></select>
+                </div>
+                <div class="block">
+                    <label>Марка металла</label>
+                    <select id="metal_grade"></select>
+                </div>
+                <div class="block">
+                    <label>Температура (C°)</label>
+                    <input type="number" id="t" value='200'/>
+                </div>
+                <div class="block">
+                    <label>Давление (МПа)</label>
+                    <input type="number" id="p" value='10'/>
+                </div>
+                <div class="block">
+                    <label>Прибавка к корозии (мм)</label>
+                    <input type="number" id="c" value='1'/>
+                </div>
+                <div class="block">
+                    <label>Допускаемое напряжение при расчетной температуре
+                        (МПа)</label>
+                    <input type="number" id="sigma_dopusk" value='147'/>
+                </div>
+                <hr>
+                <h2>Трубопровод</h2>
+                <div class="block">
+                    <label>Наружний диаметр (мм)
+                        <span class="tooltip">
+                            <img src="assets/info-circle.svg"
+                                class="symbol">
+                            <span class="tooltiptext">
+                                D<sub>a</sub>
+                            </span>
+                        </span>
+                    </label>
+                    <input type="number" id="pipe_D_a" value='35'/>
+                </div>
+                <hr>
+                <h2>Отвод</h2>
+                <div class="block">
+                    <label>Тип отвода
+                        <span class="tooltip">
+                            <img src="assets/info-circle.svg"
+                                class="symbol">
+                            <span class="tooltiptext">
+                                <img src="assets/details/tap.jpeg">
+                            </span>
+                        </span>
+                    </label>
+                    <select id="tap_type">
+                        <option value="секторный">секторный</option>
+                        <option value="штампосварной">штампосварной</option>
+                        <option value="гнутый">гнутый</option>
+                        <option value="крутоизогнутый">крутоизогнутый</option>
+                    </select>
+                </div>
+                <div class="block">
+                    <label>Наружний диаметр (мм)
+                        <span class="tooltip">
+                            <img src="assets/info-circle.svg"
+                                class="symbol">
+                            <span class="tooltiptext">
+                                D<sub>a</sub>
+                            </span>
+                        </span>
+                    </label>
+                    <input type="number" id="tap_D_a" value="35" />
+                </div>
+                <div class="block">
+                    <label>Радиус кривизны осевой линии (мм)
+                        <span class="tooltip">
+                            <img src="assets/info-circle.svg"
+                                class="symbol">
+                            <span class="tooltiptext">
+                                R
+                            </span>
+                        </span>
+                    </label>
+                    <input type="number" id="tap_R" value="55" />
+                </div>
+                <hr>
+                <h2>Переходник</h2>
+                <div class="block">
+                    <label>Тип переходника
+                        <span class="tooltip">
+                            <img src="assets/info-circle.svg"
+                                class="symbol">
+                            <span class="tooltiptext">
+                                <img src="assets/details/transiter.jpeg">
+                            </span>
+                        </span>
+                    </label>
+                    <select id="transiter_type">
+                        <option value="концентрический">концентрический</option>
+                        <option value="эксцентрический">эксцентрический</option>
+                    </select>
+                </div>
+                <div class="block">
+                    <label>Больший диаметр (мм)
+                        <span class="tooltip">
+                            <img src="assets/info-circle.svg"
+                                class="symbol">
+                            <span class="tooltiptext">
+                                D<sub>1</sub>
+                            </span>
+                        </span>
+                    </label>
+                    <input type="number" id="transiter_D_1" value="35" />
+                </div>
+                <div class="block">
+                    <label>Меньший диаметр (мм)
+                        <span class="tooltip">
+                            <img src="assets/info-circle.svg"
+                                class="symbol">
+                            <span class="tooltiptext">
+                                D<sub>2</sub>
+                            </span>
+                        </span>
+                    </label>
+                    <input type="number" id="transiter_D_2" value="30" />
+                </div>
+                <div class="block">
+                    <label>Длина перехода (мм)
+                        <span class="tooltip">
+                            <img src="assets/info-circle.svg"
+                                class="symbol">
+                            <span class="tooltiptext">
+                                l
+                            </span>
+                        </span>
+                    </label>
+                    <input type="number" id="transiter_l" value="60" />
+                </div>
+                <hr>
+                <h2>Тройник</h2>
+                <div class="block">
+                    <label>Тип тройника
+                        <span class="tooltip">
+                            <img src="assets/info-circle.svg"
+                                class="symbol">
+                            <span class="tooltiptext">
+                                <img src="assets/details/tee.jpeg">
+                            </span>
+                        </span>
+                    </label>
+                    <select id="tee_type">
+                        <option value="сварной">сварной</option>
+                        <option value="штампосварной">штампосварной</option>
+                    </select>
+                </div>
+                <div class="block">
+                    <label>Наружний диаметр (мм)
+                        <span class="tooltip">
+                            <img src="assets/info-circle.svg"
+                                class="symbol">
+                            <span class="tooltiptext">
+                                D<sub>a</sub>
+                            </span>
+                        </span>
+                    </label>
+                    <input type="number" id="tee_D_a" value="35" />
+                </div>
+                <div class="block">
+                    <label>Внутренний диаметр ответвления (мм)
+                        <span class="tooltip">
+                            <img src="assets/info-circle.svg"
+                                class="symbol">
+                            <span class="tooltiptext">
+                                d
+                            </span>
+                        </span>
+                    </label>
+                    <input type="number" id="tee_d" value="30" />
+                </div>
+                <div class="block tee_shtamp">
+                    <label>Радиус скругления горловины (мм)
+                        <span class="tooltip">
+                            <img src="assets/info-circle.svg"
+                                class="symbol">
+                            <span class="tooltiptext">
+                                r<sub>i</sub>
+                            </span>
+                        </span>
+                    </label>
+                    <input type="number" id="tee_r_i" value="2" />
+                </div>
+                <hr>
+                <h2>Заглушка</h2>
+                <div class="block">
+                    <label>Тип заглушки
+                        <span class="tooltip">
+                            <img src="assets/info-circle.svg"
+                                class="symbol">
+                            <span class="tooltiptext">
+                                <img src="assets/details/plug.jpeg">
+                            </span>
+                        </span>
+                    </label>
+                    <select id="plug_type">
+                        <option value="плоская круглая внутритрубная">плоская
+                            круглая внутритрубная</option>
+                        <option value="плоская круглая торцевая">плоская
+                            круглая
+                            торцевая</option>
+                        <option value="плоская межфланцевая">плоская
+                            межфланцевая</option>
+                        <option value="плоская фланцевая">плоская фланцевая</option>
+                        <option value="эллиптическая без центрального
+                            отверстия">эллиптическая без центрального
+                            отверстия</option>
+                        <option value="эллиптическая c центральным
+                            отверстием">эллиптическая
+                            c центральным отверстием</option>
+                    </select>
+                </div>
+                <div class="block plug_eleptic plug_correct">
+                    <label>Наружний диаметр (мм)
+                        <span class="tooltip">
+                            <img src="assets/info-circle.svg"
+                                class="symbol">
+                            <span class="tooltiptext">
+                                D<sub>a</sub>
+                            </span>
+                        </span>
+                    </label>
+                    <input type="number" id="plug_D_a" value="35" />
+                </div>
+                <div class="block plug_D plug_correct">
+                    <label>Диаметр центрального отверстия (мм)
+                        <span class="tooltip">
+                            <img src="assets/info-circle.svg"
+                                class="symbol">
+                            <span class="tooltiptext">
+                                D
+                            </span>
+                        </span>
+                    </label>
+                    <input type="number" id="plug_D" value="30" />
+                </div>
+                <div class="block plug_d plug_correct">
+                    <label>Внутренний диаметр отверстия (мм)
+                        <span class="tooltip">
+                            <img src="assets/info-circle.svg"
+                                class="symbol">
+                            <span class="tooltiptext">
+                                d
+                            </span>
+                        </span>
+                    </label>
+                    <input type="number" id="plug_d" value="5" />
+                </div>
+                <div class="block plug_torcevaya plug_correct">
+                    <label>Радиус скругления горловины (мм)
+                        <span class="tooltip">
+                            <img src="assets/info-circle.svg"
+                                class="symbol">
+                            <span class="tooltiptext">
+                                <img src="assets/details/plug_r_help.jpeg">
+                            </span>
+                        </span>
+                    </label>
+                    <input type="number" id="plug_r_i" value="2" />
+                </div>
+                <div class="block plug_flancevaya plug_correct">
+                    <label>Диаметр крепежного отверстия (мм)
+                        <span class="tooltip">
+                            <img src="assets/info-circle.svg"
+                                class="symbol">
+                            <span class="tooltiptext">
+                                <img
+                                    src="assets/details/plug_D_b_help.jpeg">
+                                D<sub>b</sub>
+                            </span>
+                        </span>
+                    </label>
+                    <input type="number" id="plug_D_b" value="33" />
+                </div>
+                <div class="block plug_mezhflancevaya plug_correct">
+                    <label>Длина уплотнителя (мм)
+                        <span class="tooltip">
+                            <img src="assets/info-circle.svg"
+                                class="symbol">
+                            <span class="tooltiptext">
+                                <img src="assets/details/plug_b_help.jpeg">
+                                b
+                            </span>
+                        </span>
+                    </label>
+                    <input type="number" id="plug_b" value="5" />
+                </div>
+                <div class="block plug_eleptic plug_correct">
+                    <label>Глубина заглушки (мм)
+                        <span class="tooltip">
+                            <img src="assets/info-circle.svg"
+                                class="symbol">
+                            <span class="tooltiptext">
+                                <img src="assets/details/plug_h_help.jpeg">
+                                h
+                            </span>
+                        </span>
+                    </label>
+                    <input type="number" id="plug_h" value="40" />
+                </div>
+            </div>
+            <div id="output">
+                <h1>Вывод</h1>
+                <hr>
+                <table>
+                    <tr>
+                        <th></th>
+                        <th>Толщина (мм)</th>
+                        <th>Допустимое давление (МПа)</th>
+                    </tr>
+                    <tr>
+                        <td>Трубопровод</td>
+                        <td id="pipe_s"></td>
+                        <td id="pipe_p"></td>
+                    </tr>
+                    <tr>
+                        <td>Отвод</td>
+                        <td id="tap_s"></td>
+                        <td id="tap_p"></td>
+                    </tr>
+                    <tr>
+                        <td>Переходник</td>
+                        <td id="transiter_s"></td>
+                        <td id="transiter_p"></td>
+                    </tr>
+                    <tr>
+                        <td>Тройник</td>
+                        <td id="tee_s"></td>
+                        <td id="tee_p"></td>
+                    </tr>
+                    <tr>
+                        <td>Заглушка</td>
+                        <td id="plug_s"></td>
+                        <td id="plug_p"></td>
+                    </tr>
+                </table>
+                <hr>
+                <h2>Решение</h2>
+                <button onclick="(()=> {let s = get_sol_params();
+                    generate(s,
+                    'Трубопровод');})()">Скачать
+                    решение трубопровода
+                </button>
+                <br><br>
+                <button onclick="(()=> {let s = get_sol_params();
+                    generate(s,
+                    `Отвод ${s['tap_type'].toLowerCase()}`);})()">Скачать
+                    решение отвода
+                </button>
+                <br><br>
+                <button onclick="(()=> {let s = get_sol_params();
+                    generate(s,
+                    `Переходник
+                    ${s['transiter_type'].toLowerCase()}`);})()">Скачать
+                    решение переходника
+                </button>
+                <br><br>
+                <button onclick="(()=> {let s = get_sol_params();
+                    generate(s,
+                    `Тройник ${s['tee_type'].toLowerCase()}`);})()">Скачать
+                    решение тройника
+                </button>
+                <br><br>
+                <button onclick="(()=> {let s = get_sol_params();
+                    generate(s,
+                    `Заглушка ${s['plug_type'].toLowerCase()}`);})()">Скачать
+                    решение заглушки
+                </button>
+                <br><br>
+            </div>
+        </main>
+        <button id="count" onclick="solve();">Считать</button>
+
+        <script src="scripts/data.js"></script>
+        <script src="scripts/functions.js"></script>
+        <script src="scripts/ui.js"></script>
+        <script src="scripts/script.js"></script>
+
+        <script src="scripts/docx.js"></script>
+        <script src="scripts/make_docx.js"></script>
+    </body>
+</html>

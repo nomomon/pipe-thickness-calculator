@@ -1,0 +1,150 @@
+body{
+    padding: 0;
+    margin: 0;
+    
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+
+    overflow: hidden;
+}
+
+main{
+    width:100vw;
+    height: calc(100vh - 10px);
+    
+    position: fixed;
+    top: 10px;
+    left:0;
+
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-items: stretch;
+    align-content: stretch;
+    gap: 2rem;
+
+    padding: 2rem;
+    padding-bottom: 4rem;
+
+    box-sizing: border-box;
+}
+
+#input, #output{
+    width: 45%;
+    padding: 1rem;
+    box-sizing: border-box;
+    background-color: #00000010;
+    border-radius: 1rem;
+    overflow: auto;
+    height: calc(100vh - 4em);
+}
+
+#count{
+    position: fixed;
+    bottom:1rem;
+    left:50%;
+    transform: translateX(-50%);
+}
+
+h1:nth-child(1){
+    display: inline-block;
+}
+#clear{
+    float: right;
+    transform: translateY(.5rem);
+}
+
+#input .block{
+    margin-bottom:.2rem;
+}
+
+#input label{
+    display: inline-block;
+    width: 14rem;
+    text-align: right;
+    margin-right: .2rem;
+}
+#input select{
+    min-width: 8rem;
+    max-width: 16rem;
+}
+#input input{
+    width: 4rem;
+}
+#input input, #input select{
+    box-sizing: content-box;
+    height: 16px;
+    padding: 1px 2px;
+    font-size: 14px;
+    vertical-align: bottom;
+}
+
+img.symbol{
+    height: 1em;
+    vertical-align: bottom;
+}
+
+.tooltip {
+    cursor: help;
+    position: relative;
+    display: inline-block;
+}
+.tooltip .tooltiptext {
+    visibility: hidden;
+    min-width: 2rem;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    padding: .2rem;
+    border-radius: 6px;
+
+    opacity: 0;
+    transition: opacity .3s;
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    /* Posiotion to the right */
+    top: 0;
+    left: 110%;
+    transform: translateY(-100%);
+}
+
+.tooltip:hover .tooltiptext {
+    opacity: 1;
+    visibility: visible;
+}
+
+.tooltiptext img{
+    max-width: 400px;
+}
+
+h1, h2, h3{
+    margin:0;
+    margin-bottom:.3rem;
+}
+hr{
+    margin:1rem 0;
+}
+
+table {
+    border-collapse: collapse;
+    background-color: white;
+    width: 100%;
+}
+  
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+  
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+.pos{
+    position: fixed;
+    top:10px;
+    left: calc(4vw);
+    z-index: 100;
+}
