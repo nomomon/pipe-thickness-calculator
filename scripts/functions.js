@@ -211,7 +211,7 @@ function plug_thickness({ plug_type, D_a, d, r_i, D, D_b, b, h, c, p, metal, met
         s = max(s, s_R3 + c);
         p_raschet = 8 * (s - c) * h / (D_a * D_a - 2 * h * (s - c)) * phi_y * sigma_dopusk;
     }
-    else if (plug_type == 'эллиптическая c центральным отверстием') {
+    else if (plug_type.includes('эллиптическая') && !plug_type.includes('без')) {
         s = min_thickness(D_a) + c;
 
         let sum_A = 0;
