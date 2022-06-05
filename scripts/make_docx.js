@@ -2,6 +2,7 @@ function loadFile(url, callback) {
     PizZipUtils.getBinaryContent(url, callback);
 }
 window.generate = function generate(params, title) {
+    title = title.replace(/ +(?= )/g, '');
     loadFile(
         `./templates/${title}.docx`,
         function (error, content) {

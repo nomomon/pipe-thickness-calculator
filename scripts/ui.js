@@ -100,6 +100,6 @@ update_sigma()
 
 $('#gost_open').addEventListener('click', () => {
     file_route = $('#GOST').value;
-    let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no, width=600,height=300,left=100,top=100`;
+    let params = `scrollbars=no,resizable=yes,status=no,location=no,toolbar=no,menubar=no, width=1000,height=800,left=100,top=100`;
     window.open(file_route, 'newwindow', params)
 })
