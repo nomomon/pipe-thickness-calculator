@@ -15,7 +15,8 @@ function $$(q) {
 });
 
 [...$$('option')].forEach(element => {
-    element.value = element.value.replace(/ +(?= )/g, '')
+    element.value = element.value.replace(/ +(?= )/g, '');
+    element.value = element.value.replace(/\n/g, '');
 });
 
 function clear() {
