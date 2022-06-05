@@ -1,9 +1,16 @@
 name: Release
 
 on:
-  push:
-    tags:
-      - "*"
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+    inputs:
+      name:
+        # Friendly description to be shown in the UI instead of 'name'
+        description: "Person to greet"
+        # Default value if no value is explicitly provided
+        default: "World"
+        # Input has to be provided for the workflow to run
+        required: true
 
 jobs:
   build:
@@ -19,7 +26,8 @@ jobs:
           node-version: "14.x"
       - run: npm ci
       - run: npm run make
-      - name: Put artifacts into releases
-        uses: ncipollo/release-action@v1
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v3
         with:
-          artifacts: "**/*.exe"
+          name: out
+          path: out
