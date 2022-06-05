@@ -29,3 +29,5 @@ jobs:
           node-version: "14.x"
       - run: npm ci
       - run: npm run make
+      - name: Download all workflow run artifacts
+        uses: actions/download-artifact@v3
