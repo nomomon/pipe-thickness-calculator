@@ -1,7 +1,7 @@
 {
   "name": "solver",
   "version": "1.0.0",
-  "description": "",
+  "description": "калькулятор толщины трубопровода и его деталей",
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,7 +9,7 @@
     "package": "electron-forge package",
     "make": "electron-forge make"
   },
-  "author": "",
+  "author": "nomomon",
   "license": "ISC",
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0"
