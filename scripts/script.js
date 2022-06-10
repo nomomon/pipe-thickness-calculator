@@ -160,6 +160,7 @@ function get_sol_params() {
 
     const tee = tee_thickness({ tee_type, D_a, d, c, p, metal, metal_grade, t, phi_y }, true);
 
+    plug_type = $('#plug_type').value;
     d = Number($('#plug_d').value);
     r_i = Number($('#plug_r_i').value);
     D = Number($('#plug_D').value);
