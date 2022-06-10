@@ -95,7 +95,7 @@ function pipe_thickness({ D_a, c, p, metal, metal_grade, t, phi_y }, sols = fals
 
     if (!sols) return { s, p_raschet };
 
-    return { pipe_D_a: format(D_a), pipe_s_R: format(s_R), pipe_s: format(s), pipe_p: format(p_raschet) }
+    return { pipe_D_a: format(D_a), pipe_s_R: format(s_R), pipe_s: format(s), pipe_p: format(p_raschet), pipe_s_min: format(min_thickness(D_a)) };
 }
 
 function tap_thickness({ tap_type, D_a, R, c, p, metal, metal_grade, t, phi_y }, sols = false) {
@@ -115,7 +115,7 @@ function tap_thickness({ tap_type, D_a, R, c, p, metal, metal_grade, t, phi_y },
 
     if (!sols) return { s, p_raschet };
 
-    return { tap_D_a: format(D_a), tap_k_i: format(k_i), tap_R: format(R), tap_s_RO: format(s_RO), tap_s: format(s), tap_p: format(p_raschet), tap_type: formatType(tap_type) }
+    return { tap_D_a: format(D_a), tap_k_i: format(k_i), tap_R: format(R), tap_s_RO: format(s_RO), tap_s: format(s), tap_p: format(p_raschet), tap_type: formatType(tap_type), tap_s_min: format(min_thickness(D_a)) };
 }
 
 function transiter_thickness({ transiter_type, D_1, D_2, l, c, p, metal, metal_grade, t, phi_y }, sols = false) {
@@ -144,7 +144,7 @@ function transiter_thickness({ transiter_type, D_1, D_2, l, c, p, metal, metal_g
 
     if (!sols) return { 's': [s_1, s_2], p_raschet };
 
-    return { transiter_D_1: format(D_1), transiter_D_2: format(D_2), transiter_k: k, transiter_alpha: format(deg(alpha)), transiter_s_RP1: format(s_RP1), transiter_s_RP2: format(s_RP2), transiter_s_1: format(s_1), transiter_s_2: format(s_2), transiter_p: format(p_raschet), transiter_type: formatType(transiter_type) }
+    return { transiter_D_1: format(D_1), transiter_D_2: format(D_2), transiter_k: k, transiter_alpha: format(deg(alpha)), transiter_s_RP1: format(s_RP1), transiter_s_RP2: format(s_RP2), transiter_s_1: format(s_1), transiter_s_2: format(s_2), transiter_p: format(p_raschet), transiter_type: formatType(transiter_type), transiter_s_min_1: format(min_thickness(D_1)), transiter_s_min_2: format(min_thickness(D_2)) };
 }
 
 function tee_thickness({ tee_type, D_a, d, c, p, metal, metal_grade, t, phi_y }, sols = false) {
@@ -164,7 +164,7 @@ function tee_thickness({ tee_type, D_a, d, c, p, metal, metal_grade, t, phi_y },
 
     if (!sols) return { s, p_raschet };
 
-    return { tee_D_a: format(D_a), tee_s_RM: format(s_RM), tee_s: format(s), tee_p: format(p_raschet), tee_type: formatType(tee_type) }
+    return { tee_D_a: format(D_a), tee_s_RM: format(s_RM), tee_s: format(s), tee_p: format(p_raschet), tee_type: formatType(tee_type), tee_s_min: format(min_thickness(D_a)) };
 }
 
 function plug_thickness({ plug_type, D_a, d, r_i, D, D_b, b, h, c, p, metal, metal_grade, t, phi_y }, sols = false) {
@@ -173,34 +173,39 @@ function plug_thickness({ plug_type, D_a, d, r_i, D, D_b, b, h, c, p, metal, met
     let m_0 = (d == 0) ? 1 : 1 / sqrt(1 + d / D + (d / D) * (d / D));
     let phi_L = .8;
 
-    let p_raschet, s_R3, s;
+    let p_raschet, s_R3, s, s_min;
 
     if (plug_type == 'плоская круглая внутритрубная') {
-        s = min_thickness(D) + c;
+        s_min = min_thickness(D) + c;
+        s = s_min + c;
         s_R3 = .53 / m_0 * D * sqrt(p / (sigma_dopusk * phi_L));
         s = max(s, s_R3 + c);
         p_raschet = (m_0 * m_0 * (s - c) * (s - c) / (.28 * D * D)) * phi_L * sigma_dopusk;
     }
     else if (plug_type == 'плоская круглая торцевая') {
-        s = min_thickness(D) + c;
+        s_min = min_thickness(D) + c;
+        s = s_min + c;
         s_R3 = .35 / m_0 * (D - r_i) * sqrt(p / (sigma_dopusk * phi_y));
         s = max(s, s_R3 + c);
         p_raschet = (m_0 * m_0 * (s - c) * (s - c) / (.12 * (D - r_i) * (D - r_i))) * phi_y * sigma_dopusk;
     }
     else if (plug_type == 'плоская межфланцевая') {
-        s = min_thickness(D) + c;
+        s_min = min_thickness(D) + c;
+        s = s_min + c;
         s_R3 = 0.41 * (D + b) * sqrt(p / sigma_dopusk);
         s = max(s, s_R3 + c);
         p_raschet = (s - c) * (s - c) / (.17 * (D + b) * (D + b)) * sigma_dopusk;
     }
     else if (plug_type == 'плоская фланцевая') {
-        s = min_thickness(D_b) + c;
+        s_min = min_thickness(D_b);
+        s = s_min + c;
         s_R3 = .5 * D_b * sqrt(p / sigma_dopusk);
         s = max(s, s_R3 + c);
         p_raschet = (s - c) * (s - c) / (.25 * D_b * D_b) * sigma_dopusk;
     }
     else if (plug_type == 'эллиптическая без центрального отверстия') {
-        s = min_thickness(D_a) + c;
+        s_min = min_thickness(D_a);
+        s = s_min + c;
         s_R3 = p * D_a / (4 * sigma_dopusk * phi_y + p) * D_a / (2 * h);
 
         let { s: s_R } = pipe_thickness({ D_a, c, p, metal, metal_grade, t });
@@ -210,7 +215,8 @@ function plug_thickness({ plug_type, D_a, d, r_i, D, D_b, b, h, c, p, metal, met
         p_raschet = 8 * (s - c) * h / (D_a * D_a - 2 * h * (s - c)) * phi_y * sigma_dopusk;
     }
     else if (plug_type.includes('эллиптическая') && !plug_type.includes('без')) {
-        s = min_thickness(D_a) + c;
+        s_min = min_thickness(D_a);
+        s = s_min + c;
 
         let sum_A = 0;
         let denom = sqrt((D_a - s) * (s));
@@ -224,5 +230,5 @@ function plug_thickness({ plug_type, D_a, d, r_i, D, D_b, b, h, c, p, metal, met
 
     if (!sols) return { s, p_raschet };
 
-    return { plug_D_a: format(D_a), plug_D_b: format(D_b), plug_D: format(D), plug_b: format(b), plug_h: format(h), plug_r_i: format(r_i), plug_s_R3: format(s_R3), plug_s: format(s), plug_p: format(p_raschet), plug_type: formatType(plug_type) }
+    return { plug_D_a: format(D_a), plug_D_b: format(D_b), plug_D: format(D), plug_b: format(b), plug_h: format(h), plug_r_i: format(r_i), plug_s_R3: format(s_R3), plug_s: format(s), plug_p: format(p_raschet), plug_type: formatType(plug_type), plug_s_min: format(s_min) };
 }
