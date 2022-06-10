@@ -4,8 +4,6 @@ const arctan = Math.atan,
     max = Math.max,
     min = Math.min;
 
-const phi_y = .8;
-
 const deg = (radians) => radians * 180 / Math.PI;
 
 function min_thickness(D_a) {
@@ -82,7 +80,7 @@ function get_k_i(D_a, R, s_R, phi_y, tap_type) {
     }
 }
 
-function pipe_thickness({ D_a, c, p, metal, metal_grade, t }, sols = false, phi_y_1 = false) {
+function pipe_thickness({ D_a, c, p, metal, metal_grade, t, phi_y }, sols = false, phi_y_1 = false) {
 
     let s = min_thickness(D_a) + c;
     let sigma_dopusk = get_sigma_dopusk(metal, metal_grade, t);
@@ -100,12 +98,12 @@ function pipe_thickness({ D_a, c, p, metal, metal_grade, t }, sols = false, phi_
     return { pipe_D_a: format(D_a), pipe_s_R: format(s_R), pipe_s: format(s), pipe_p: format(p_raschet) }
 }
 
-function tap_thickness({ tap_type, D_a, R, c, p, metal, metal_grade, t }, sols = false) {
+function tap_thickness({ tap_type, D_a, R, c, p, metal, metal_grade, t, phi_y }, sols = false) {
 
     let s = min_thickness(D_a) + c;
     let sigma_dopusk = get_sigma_dopusk(metal, metal_grade, t);
 
-    let { s: s_R } = pipe_thickness({ D_a, c, p, metal, metal_grade, t }, false, true);
+    let { s: s_R } = pipe_thickness({ D_a, c, p, metal, metal_grade, t, phi_y }, false, true);
 
     let k_i = get_k_i(D_a, R, s_R, phi_y, tap_type);
 
@@ -120,7 +118,7 @@ function tap_thickness({ tap_type, D_a, R, c, p, metal, metal_grade, t }, sols =
     return { tap_D_a: format(D_a), tap_k_i: format(k_i), tap_R: format(R), tap_s_RO: format(s_RO), tap_s: format(s), tap_p: format(p_raschet), tap_type: formatType(tap_type) }
 }
 
-function transiter_thickness({ transiter_type, D_1, D_2, l, c, p, metal, metal_grade, t }, sols = false) {
+function transiter_thickness({ transiter_type, D_1, D_2, l, c, p, metal, metal_grade, t, phi_y }, sols = false) {
     let k;
     if (transiter_type == 'эксцентрический') {
         k = 1;
@@ -149,7 +147,7 @@ function transiter_thickness({ transiter_type, D_1, D_2, l, c, p, metal, metal_g
     return { transiter_D_1: format(D_1), transiter_D_2: format(D_2), transiter_k: k, transiter_alpha: format(deg(alpha)), transiter_s_RP1: format(s_RP1), transiter_s_RP2: format(s_RP2), transiter_s_1: format(s_1), transiter_s_2: format(s_2), transiter_p: format(p_raschet), transiter_type: formatType(transiter_type) }
 }
 
-function tee_thickness({ tee_type, D_a, d, c, p, metal, metal_grade, t }, sols = false) {
+function tee_thickness({ tee_type, D_a, d, c, p, metal, metal_grade, t, phi_y }, sols = false) {
     let s = min_thickness(D_a) + c;
     let sigma_dopusk = get_sigma_dopusk(metal, metal_grade, t);
 
@@ -169,7 +167,7 @@ function tee_thickness({ tee_type, D_a, d, c, p, metal, metal_grade, t }, sols =
     return { tee_D_a: format(D_a), tee_s_RM: format(s_RM), tee_s: format(s), tee_p: format(p_raschet), tee_type: formatType(tee_type) }
 }
 
-function plug_thickness({ plug_type, D_a, d, r_i, D, D_b, b, h, c, p, metal, metal_grade, t }, sols = false) {
+function plug_thickness({ plug_type, D_a, d, r_i, D, D_b, b, h, c, p, metal, metal_grade, t, phi_y }, sols = false) {
     let sigma_dopusk = get_sigma_dopusk(metal, metal_grade, t);
 
     let m_0 = (d == 0) ? 1 : 1 / sqrt(1 + d / D + (d / D) * (d / D));
