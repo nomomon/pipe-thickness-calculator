@@ -112,7 +112,7 @@ function solve() {
         solve_transiter();
     }
     catch (e) {
-        console.error('не получилось решить переходник\n', e)
+        console.error('не получилось решить переход\n', e)
     }
     try {
         solve_tee();
