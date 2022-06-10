@@ -54,7 +54,7 @@ function get_sigma_dopusk(metal, metal_grade, t) {
     if (t > temps[temps.length - 1]) return sigmas[temps.length - 1];
 
     // иначе интерполяция
-    for (let i = 1; i < temps.length - 1; i++) {
+    for (let i = 0; i < temps.length - 1; i++) {
         if (temps[i + 1] >= t && temps[i] <= t) {
             return (temps[i + 1] - t) / (temps[i + 1] - temps[i]) * sigmas[i] +
                 (t - temps[i]) / (temps[i + 1] - temps[i]) * sigmas[i + 1];
