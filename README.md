@@ -1,5 +1,7 @@
 # Pipe Thickness Calculator
 
+![cover](./assets/cover.jpeg)
+
 Desktop app for calculating pipe wall thickness based on material properties. Exports results to a Word document.
 
 ## What's this about
